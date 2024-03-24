@@ -8,6 +8,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 from langchain_community.document_loaders import TextLoader
+from langchain_community.document_loaders import PyPDFLoader
 
 import textwrap
 import os
@@ -33,12 +34,8 @@ def process():
         filename=file.filename
         file.save(os.path.join('uploads',filename))
         if filename.endswith('.pdf'):
-            print('pdf file')
             summary=langpdf(filename)
         elif filename.endswith('.txt'):
-            # with open(os.path.join('uploads',filename),'r') as file:
-            #     text=file.read()
-            # print('txt file: ',text)
             summary=langtxt(filename)
         else:
             print('Not supported')
@@ -47,7 +44,31 @@ def process():
     return render_template('results.html',summary=summary)
 
 def langpdf(file):
-    return 'answer'
+    llm=ChatOpenAI()
+    prompt=ChatPromptTemplate.from_template("""Answer the following request based only on the provided context:
+    
+    <context>
+    {context}
+    </context>
+    
+    Question: {input}""")
+    documentchain=create_stuff_documents_chain(llm,prompt)
+    loader=PyPDFLoader(os.path.join('uploads',file))
+    pages=loader.load_and_split()
+
+    embeddings=OpenAIEmbeddings()
+    tsplitter=RecursiveCharacterTextSplitter()
+    documents=tsplitter.split_documents(pages)
+    vec=FAISS.from_documents(documents,embeddings)
+
+    retriever=vec.as_retriever()
+    retrievalchain=create_retrieval_chain(retriever,documentchain)
+    question='Please summarize the given file in 5 sentences or less'
+    response=retrievalchain.invoke({'input':question})
+    print(question)
+    cleanans=response['answer']
+    print(consoleformat(cleanans))
+    return cleanans
 
 def langtxt(file):
     llm=ChatOpenAI()
