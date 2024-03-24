@@ -2,7 +2,6 @@ from flask import Flask,render_template,request
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -60,8 +59,6 @@ def langtxt(file):
     
     Question: {input}""")
     documentchain=create_stuff_documents_chain(llm,prompt)
-    outputparser=StrOutputParser()
-    chain=prompt|llm|outputparser
     loader=TextLoader(os.path.join('uploads',file))
     docs=loader.load()
 
