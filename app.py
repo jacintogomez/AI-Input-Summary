@@ -32,7 +32,7 @@ def process():
             print('Not supported')
             summary='File type not supported'
     print('summary is ',summary)
-    return summary
+    return render_template('results.html',summary=summary)
 
 def langpdf(file):
     return 'answer'
