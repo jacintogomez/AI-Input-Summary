@@ -20,12 +20,18 @@ def process():
         filename=file.filename
         file.save(os.path.join('uploads',filename))
         if filename.endswith('.pdf'):
+            print('pdf file')
             summary=langpdf(filename)
         elif filename.endswith('.txt'):
-            text=file.read().decode('utf-8')
-            summary=langtxt(filename)
+            text=''
+            with open(os.path.join('uploads',filename),'r') as file:
+                text=file.read()
+            print('txt file: ',text)
+            summary=langtxt(text)
         else:
+            print('Not supported')
             summary='File type not supported'
+    print('summary is ',summary)
     return summary
 
 def langpdf(file):
