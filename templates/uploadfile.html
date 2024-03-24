@@ -2,9 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload em here</title>
 </head>
 <body>
     <h1>Analyze This</h1>
+    <form action="/process" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <button type="submit">Upload</button>
+    </form>
+    <div id="result"></div>
+    <script src="processform.js"></script>
 </body>
 </html>

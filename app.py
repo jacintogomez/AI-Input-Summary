@@ -15,21 +15,24 @@ def process():
     file=request.files['file']
     if file.filename=='':
         return 'No selected file'
+    summary=''
     if file:
         filename=file.filename
         file.save(os.path.join('uploads',filename))
         if filename.endswith('.pdf'):
-            langpdf(filename)
+            summary=langpdf(filename)
         elif filename.endswith('.txt'):
-            langtxt(filename)
+            text=file.read().decode('utf-8')
+            summary=langtxt(filename)
         else:
-            return 'File type not supported'
+            summary='File type not supported'
+    return summary
 
 def langpdf(file):
-    pass
+    return 'answer'
 
-def langtxt(file):
-    pass
+def langtxt(text):
+    return text.upper()
 
 if __name__ == '__main__':
     app.run(debug=True)
