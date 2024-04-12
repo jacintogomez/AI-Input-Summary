@@ -4,9 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Summarize</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
     <style>
-
+        #loading-results{
+            border: 10px solid black;
+            border-top: 10px solid red;
+            border-radius: 50%;
+            height: 30px;
+            width: 30px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            flex: 1;
+        }
+        @keyframes spin{
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        body{
+            margin: 2%;
+            text-align: center;
+            background: radial-gradient(circle,coral,lightcoral);
+        }
+        button,input[type="file"]::-webkit-file-upload-button{
+            color: white;
+            background-color: red;
+            border-radius: 20px;
+            padding: 10px 20px;
+        }
+        button:hover,input[type="file"]::-webkit-file-upload-button:hover{
+            background-color: red;
+        }
+        .results{
+            background-color: black;
+            color: white;
+            height: 1000px;
+            width: 900px;
+            margin: 0 auto;
+            padding-top: 50px;
+            padding-left: 50px;
+            padding-right: 50px;
+            border-radius: 5%;
+            overflow-y: auto;
+            text-align: left;
+            resize: vertical;
+        }
+        .left{
+            width: 50%;
+            float: left;
+            display: inline-block;
+            text-align: left;
+        }
+        .right{
+            width: 50%;
+            float: left;
+            display: inline-block;
+            text-align: left;
+        }
+        .outerlabel{
+            display: flex;
+            justify-content: space-around;
+            width: 900px;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+        .halflabel{
+            flex: 1;
+            text-align: center;
+            font-size: 40px;
+            margin: 10px 10px
+        }
     </style>
 </head>
 <body>
@@ -18,6 +84,17 @@
         <button type="submit">Upload</button>
     </form>
     <div id="result"></div>
-    <script src="processform.js"></script>
+    <script>
+        document.querySelector('form').addEventListener('submit',async function(e){
+            e.preventDefault();
+            const formdata=new FormData(this);
+            const response=await fetch('/process',{
+                method:'POST',
+                body:formdata
+            });
+            const result=await response.text();
+            document.getElementById('result').innerText=result;
+        });
+    </script>
 </body>
 </html>
