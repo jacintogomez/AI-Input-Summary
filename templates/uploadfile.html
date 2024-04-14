@@ -34,32 +34,6 @@
         button:hover,input[type="file"]::-webkit-file-upload-button:hover{
             background-color: red;
         }
-        .results{
-            background-color: black;
-            color: white;
-            height: 1000px;
-            width: 900px;
-            margin: 0 auto;
-            padding-top: 50px;
-            padding-left: 50px;
-            padding-right: 50px;
-            border-radius: 5%;
-            overflow-y: auto;
-            text-align: left;
-            resize: vertical;
-        }
-        .left{
-            width: 50%;
-            float: left;
-            display: inline-block;
-            text-align: left;
-        }
-        .right{
-            width: 50%;
-            float: left;
-            display: inline-block;
-            text-align: left;
-        }
         .outerlabel{
             display: flex;
             justify-content: space-around;
@@ -67,34 +41,18 @@
             margin: 0 auto;
             padding-top: 20px;
         }
-        .halflabel{
-            flex: 1;
-            text-align: center;
-            font-size: 40px;
-            margin: 10px 10px
-        }
     </style>
 </head>
 <body>
     <h1>AI Summarize</h1>
     <h3>Upload a PDF or .txt file below to receive a brief summary of it</h3>
-    <h5>created by Jacinto Gomez</h5>
     <form action="/process" method="post" enctype="multipart/form-data">
         <input type="file" name="file">
         <button type="submit">Upload</button>
     </form>
-    <div id="result"></div>
-    <script>
-        document.querySelector('form').addEventListener('submit',async function(e){
-            e.preventDefault();
-            const formdata=new FormData(this);
-            const response=await fetch('/process',{
-                method:'POST',
-                body:formdata
-            });
-            const result=await response.text();
-            document.getElementById('result').innerText=result;
-        });
-    </script>
+    <div class="outerlabel">
+        <div id="loading-results" style="display:none"></div>
+    </div>
+    <script src="processform.js"></script>
 </body>
 </html>

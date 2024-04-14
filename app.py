@@ -41,7 +41,7 @@ def process():
             print('Not supported')
             summary='File type not supported'
     print('summary completed')
-    return [summary]
+    return render_template('results.html',summary=summary,docname=file.filename)
 
 def langpdf(file):
     llm=ChatOpenAI()

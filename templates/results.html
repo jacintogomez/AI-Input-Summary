@@ -9,21 +9,27 @@
         body{
             margin: 2%;
             text-align: center;
-            background-color: #604095;
+            background: radial-gradient(circle,coral,lightcoral);
         }
         button,input[type="file"]::-webkit-file-upload-button{
             color: white;
-            background-color: purple;
+            background-color: red;
             border-radius: 20px;
             padding: 10px 20px;
         }
         button:hover,input[type="file"]::-webkit-file-upload-button:hover{
-            background-color: #5A005A;
+            background-color: red;
+        }
+        p{
+            color: white;
+            background-color: black;
+            border-radius: 10px;
+            padding: 5%;
         }
     </style>
 </head>
 <body>
-    <h1>Analysis of Docname</h1>
+    <h1>Analysis of {{ docname }}</h1>
     <p>{{ summary }}</p>
     <form action="/" method="get">
         <button type="submit">Return to main page</button>

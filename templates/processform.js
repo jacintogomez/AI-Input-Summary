@@ -1,10 +1,18 @@
 document.querySelector('form').addEventListener('submit',async function(e){
-    e.preventDefault();
+    document.getElementById('loading-results').style.display='block';
     const formdata=new FormData(this);
-    const response=await fetch('/process',{
-        method:'POST',
-        body:formdata
-    });
-    const result=await response.text();
-    document.getElementById('result').innerText=result;
+    try{
+        const response=await fetch('/process',{
+            method:'POST',
+            body:formdata
+        });
+        if(!response.ok){
+            throw new Error('Server error: '+response.status);
+        }
+        const result=await response.json();
+        document.getElementById('loading-results').style.display='none';
+    }catch(error){
+        document.getElementById('loading-results').style.display='none';
+        alert('Sorry, an error occurred: '+error.message);
+    }
 });
