@@ -13,7 +13,6 @@ document.querySelector('form').addEventListener('submit',async function(e){
         document.getElementById('loading-results').style.display='none';
         document.getElementById('analysis-of').innerText=title;
         document.getElementById('summary').innerText=result;
-        window.location.href='/process';
     }catch(error){
         document.getElementById('loading-results').style.display='none';
         alert('Sorry, an error occurred: '+error.message);
