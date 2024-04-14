@@ -79,7 +79,7 @@
             if(!response.ok){
                 throw new Error('Server error: '+response.status);
             }
-            const [result,title]=await response.json();
+            const [result,title]=await response.text();
             document.getElementById('loading-results').style.display='none';
             document.getElementById('analysis-of').innerText=title;
             document.getElementById('summary').innerText=result;
