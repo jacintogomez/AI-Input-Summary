@@ -11,6 +11,7 @@ document.querySelector('form').addEventListener('submit',async function(e){
         }
         const result=await response.json();
         document.getElementById('loading-results').style.display='none';
+        document.getElementById('result').innerText=result;
     }catch(error){
         document.getElementById('loading-results').style.display='none';
         alert('Sorry, an error occurred: '+error.message);
