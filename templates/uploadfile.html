@@ -81,9 +81,10 @@
                 throw new Error('Server error: '+response.status);
             }
             document.getElementById('loading-results').style.display='none';
+            console.log('error number is '+response.status);
         }catch(error){
             document.getElementById('loading-results').style.display='none';
-            alert('Sorry, an error occurred: '+error.message);
+            //alert('Sorry, an error occurred: '+error.message);
         }
     });
     </script>
